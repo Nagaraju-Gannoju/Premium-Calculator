@@ -16,11 +16,11 @@ selectedRating: string = '';
 
 constructor(private fb: FormBuilder) {
   this.form = this.fb.group({
-    name: ['', Validators.required],
-    dob: ['', Validators.required],
-    age: ['', [Validators.required, Validators.min(1)]],
-    deathSumInsured: ['', [Validators.required, Validators.min(1)]],
-    occupation: ['', Validators.required]
+    Name: ['', Validators.required],
+    Dob: ['', Validators.required],
+    Age: ['', [Validators.required, Validators.min(1)]],
+    DeathSumInsured: ['', [Validators.required, Validators.min(1)]],
+    Occupation: ['', Validators.required]
   });
 }
 
@@ -48,11 +48,11 @@ ratingFactors: { [key: string]: number } = {
   calculatePremium() {
   if (this.form.invalid) return;
 
-  const { age, deathSumInsured, occupation } = this.form.value;
-  const rating = this.occupations.find(o => o.name === occupation)?.rating;
+  const { Age, DeathSumInsured, Occupation } = this.form.value;
+  const rating = this.occupations.find(o => o.name === Occupation)?.rating;
   const factor = this.ratingFactors[rating!];
 
   this.selectedRating = rating!;
-  this.monthlyPremium = (deathSumInsured * factor * age) / 1000 * 12;
+  this.monthlyPremium = (DeathSumInsured * factor * Age) / 1000 * 12;
   }
 }

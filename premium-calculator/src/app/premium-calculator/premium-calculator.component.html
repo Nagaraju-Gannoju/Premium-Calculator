@@ -1,18 +1,18 @@
 <form [formGroup]="form" (ngSubmit)="calculatePremium()">
   <label for="name">Name:</label>
-  <input id="name" formControlName="name" type="text" />
+  <input id="name" formControlName="Name" type="text" />
 
   <label for="dob">Date of Birth:</label>
-  <input id="dob" formControlName="dob" type="date" />
+  <input id="dob" formControlName="Dob" type="date" />
 
 <label for="age">Age (Next Birthday)</label>
-<input id="age" formControlName="age" type="number" placeholder="Enter your age" title="Age at next birthday" />
+<input id="age" formControlName="Age" type="number" placeholder="Enter your age" title="Age at next birthday" />
 
   <label for="deathSumInsured">Death Sum Insured:</label>
-  <input id="deathSumInsured" formControlName="deathSumInsured" type="number" />
+  <input id="deathSumInsured" formControlName="DeathSumInsured" type="number" />
 
   <label for="occupation">Occupation:</label>
-  <select id="occupation" formControlName="occupation" >
+  <select id="occupation" formControlName="Occupation">
     <option value="">Select Occupation</option>
     <option *ngFor="let occ of occupations" [value]="occ.name">{{ occ.name }}</option>
   </select>
