@@ -1,0 +1,43 @@
+<div class="container">
+    <form [formGroup]="premiumForm" (ngSubmit)="calculatePremium()">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" formControlName="name" required>
+        </div>
+        <div class="form-group">
+            <label for="age">Age Next Birthday:</label>
+            <input type="number" id="age" formControlName="age" required>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth (mm/YYYY):</label>
+            <input type="text" id="dob" formControlName="dob" required>
+        </div>    
+        <div class="form-group">
+            <label for="occupation">Usual Occupation:</label>
+            <select id="occupation" formControlName="occupation"  required>                
+                <option *ngFor="let occupation of occupations" [value]="occupation.rating">{{ occupation.name }}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="death-cover">Death - Sum Insured:</label>
+            <input type="number" id="death-cover" formControlName="deathCover" required>
+        </div>
+        <button type="submit" (click)="calculatePremium()">Calculate Premium</button>
+        <p>Monthly Premium: {{ premiumAmount }}</p>
+    </form>
+
+        <table>
+    <thead>
+      <tr>
+        <th>Occupation</th>
+        <th>Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let occupation of occupations">
+        <td>{{ occupation.name }}</td>
+        <td>{{ occupation.rating }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
