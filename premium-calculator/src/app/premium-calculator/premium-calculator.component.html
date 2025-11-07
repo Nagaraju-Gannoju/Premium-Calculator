@@ -1,43 +1,43 @@
 <form [formGroup]="form" (ngSubmit)="calculatePremium()">
   <label for="name">Name:</label>
   <input id="name" formControlName="Name" type="text" />
+  <div *ngIf="form.get('Name')?.hasError('pattern')">
+  Name should only contain characters and spaces.
+</div>
 
   <label for="dob">Date of Birth:</label>
   <input id="dob" formControlName="Dob" type="date" />
 
-<label for="age">Age (Next Birthday)</label>
-<input id="age" formControlName="Age" type="number" placeholder="Enter your age" title="Age at next birthday" />
+  <label for="age">Age (Next Birthday)</label>
+  <input id="age" formControlName="Age" type="number" placeholder="Enter your age" title="Age at next birthday" />
 
   <label for="deathSumInsured">Death Sum Insured:</label>
   <input id="deathSumInsured" formControlName="DeathSumInsured" type="number" />
+ 
 
   <label for="occupation">Occupation:</label>
   <select id="occupation" formControlName="Occupation">
     <option value="">Select Occupation</option>
     <option *ngFor="let occ of occupations" [value]="occ.name">{{ occ.name }}</option>
   </select>
-
-  <button type="submit" (click)="calculatePremium()">Calculate Premium</button>
+  <button type="submit">Calculate Premium</button>
 </form>
-
- 
-
 <div *ngIf="monthlyPremium !== null">
   <p>Occupation Rating: {{ selectedRating }}</p>
   <p>Monthly Premium: ₹{{ monthlyPremium.toFixed(2) }}</p>
 </div>
 
- <table>
-    <thead>
-      <tr>
-        <th>Occupation</th>
-        <th>Rating</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let occupation of occupations">
-        <td>{{ occupation.name }}</td>
-        <td>{{ occupation.rating }}</td>
-      </tr>
-    </tbody>
-  </table>
+<table>
+  <thead>
+    <tr>
+      <th>Occupation</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let occupation of occupations">
+      <td>{{ occupation.name }}</td>
+      <td>{{ occupation.rating }}</td>
+    </tr>
+  </tbody>
+</table>
