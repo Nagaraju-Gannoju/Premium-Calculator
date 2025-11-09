@@ -20,7 +20,7 @@
     <option value="">Select Occupation</option>
     <option *ngFor="let occ of occupations" [value]="occ.name">{{ occ.name }}</option>
   </select>
-  <button type="submit">Calculate Premium</button>
+  
 </form>
 <div *ngIf="monthlyPremium !== null">
   <p>Occupation Rating: {{ selectedRating }}</p>
