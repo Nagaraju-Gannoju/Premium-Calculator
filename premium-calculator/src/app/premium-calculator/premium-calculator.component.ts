@@ -1,27 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
+const PREMIUM_DIVISOR = 1000;
+const MONTHS_IN_YEAR = 12;
 
 @Component({
   selector: 'app-premium-calculator',
   templateUrl: './premium-calculator.component.html',
   styleUrls: ['./premium-calculator.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [ReactiveFormsModule,CommonModule]
 })
 export class PremiumCalculatorComponent implements OnInit {
   form: FormGroup;
   monthlyPremium: number | null = null;
   selectedRating: string = '';
-
-  constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      Name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
-      Dob: ['', Validators.required],
-      Age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$')]],
-      DeathSumInsured: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$')]],
-      Occupation: ['', Validators.required]
-    });
-  }
 
   occupations = [
     { name: 'Cleaner', rating: 'Light Manual' },
@@ -39,23 +33,38 @@ export class PremiumCalculatorComponent implements OnInit {
     'Heavy Manual': 31.75
   };
 
-  ngOnInit(): void { }
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      Name: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]],
+      Dob: ['', Validators.required],
+      Age: ['', [Validators.required, Validators.min(1), Validators.pattern('^[1-9][0-9]*$')]],
+      DeathSumInsured: ['', [Validators.required, Validators.min(1), Validators.pattern('^[1-9][0-9]*$')]],
+      Occupation: ['', Validators.required]
+    });
+  }
+
+ ngOnInit(): void {
+    this.form.valueChanges.subscribe(values => {
+      if (this.form.valid) {
+        this.calculatePremium();
+      }
+    });
+  }
 
   calculatePremium() {
     if (this.form.invalid) {
-      alert('Please fill in all fields.');
+       alert('Please fill in all fields.');
       return;
     }
 
     const { Age, DeathSumInsured, Occupation } = this.form.value;
     const occupation = this.occupations.find(o => o.name === Occupation);
     if (!occupation) {
-      alert('Invalid occupation');
       return;
     }
 
     const factor = this.ratingFactors[occupation.rating];
     this.selectedRating = occupation.rating;
-    this.monthlyPremium = (DeathSumInsured * factor * Age) / (1000 * 12);
+    this.monthlyPremium = (DeathSumInsured * factor * Age) / (PREMIUM_DIVISOR * MONTHS_IN_YEAR);
   }
 }
